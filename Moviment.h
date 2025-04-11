@@ -9,12 +9,12 @@ class Moviment {
 private:
     vector<Posicio> recorregut;
     vector<Posicio> pecesCapturades;  //podem ferho amb la classe fitxa???      podem afegir un metode que ho revisi
-    //int+constructor per guardar el nombre de captures o només metode???
+    //int+constructor per guardar el nombre de captures o nomÃ©s metode???
 
 public:
     Moviment();
 
-    void afegeixPas(const Posicio& p);
+    void afegeixPas(const Posicio& p);      //un sol metode?? constructor?
     void afegeixCaptura(const Posicio& p);     
     const vector<Posicio>& getRecorregut() const;
     const vector<Posicio>& getCaptures() const;
