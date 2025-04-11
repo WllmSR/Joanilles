@@ -1,3 +1,4 @@
+#include "Posicio"
 Posicio::Posicio(){
 }
 Posicio::Posicio(const string& pos){
