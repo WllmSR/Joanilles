@@ -38,7 +38,7 @@ public:
 
     void netejaMoviments(); 
 
-    bool esBuida() const; //"moviments?"
+    bool esBuida() const; //"moviments?" + kills???
     void ferDama();
 };
 
