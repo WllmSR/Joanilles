@@ -7,20 +7,20 @@ using namespace std;
 
 class Moviment {
 private:
-    vector<Posicio> recorregut;        // Camí des de la posició d'origen (exclosa) fins a la final
-    vector<Posicio> pecesCapturades;   // Posicions de peces eliminades
+    vector<Posicio> recorregut;
+    vector<Posicio> pecesCapturades;  //podem ferho amb la classe fitxa???      podem afegir un metode que ho revisi
+    //int+constructor per guardar el nombre de captures o només metode???
 
 public:
     Moviment();
 
-    void afegeixPas(const Posicio& p);              // Afegir pas del moviment
-    void afegeixCaptura(const Posicio& p);          // Afegir una peça capturada
+    void afegeixPas(const Posicio& p);
+    void afegeixCaptura(const Posicio& p);     
     const vector<Posicio>& getRecorregut() const;
     const vector<Posicio>& getCaptures() const;
 
     Posicio getDestiFinal() const;
     int numCaptures() const;
-    bool esCaptura() const;
 };
 
 #endif

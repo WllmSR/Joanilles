@@ -11,14 +11,19 @@ using namespace std;
 
 class Tauler {
 private:
+
     Fitxa m_tauler[N_FILES][N_COLUMNES];
+    //vector de fitxes "utilitzables?
 
 public:
-    void inicialitza(const string& nomFitxer);
-    void actualitzaMovimentsValids();
-    void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
+
+    void inicialitza(const string& nomFitxer);  //constructor?
+    
+    void actualitzaMovimentsValids();  //a totes les fitxes + al vector de fitxes?
+
     bool mouFitxa(const Posicio& origen, const Posicio& desti);
-    string toString() const;
+
+    string toString() const;       //reconvertir al format del fitxer
 };
 
 #endif

@@ -12,8 +12,11 @@ private:
 public:
     Posicio();
     Posicio(const string& pos);
+
     int getFila() const;
     int getColumna() const;
+    //setters?
+
     string toString() const;
     bool operator==(const Posicio& other) const;
 };

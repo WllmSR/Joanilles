@@ -13,8 +13,8 @@ typedef enum {
 } TipusFitxa;
 
 typedef enum {
-    COLOR_NEGRE,
-    COLOR_BLANC
+    COLOR_NEGRE,   //-1?
+    COLOR_BLANC    //+1?
 } ColorFitxa;
 
 class Fitxa {
@@ -26,14 +26,19 @@ private:
 public:
     Fitxa();
     Fitxa(TipusFitxa t, ColorFitxa c);
+
     TipusFitxa getTipus() const;
     ColorFitxa getColor() const;
-    void setTipus(TipusFitxa t);
+
+    void setTipus(TipusFitxa t);     //setters?
     void setColor(ColorFitxa c);
-    void afegeixMoviment(const Moviment& m);
+
+    void afegeixMoviments(const Moviment& m);
     const vector<Moviment>& getMoviments() const;
-    void netejaMoviments();
-    bool esBuida() const;
+
+    void netejaMoviments(); 
+
+    bool esBuida() const; //"moviments?"
     void ferDama();
 };
 
