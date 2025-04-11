@@ -1,4 +1,4 @@
-#include "Posicio"
+#include "Posicio.h"
 Posicio::Posicio(){
 }
 Posicio::Posicio(const string& pos){
