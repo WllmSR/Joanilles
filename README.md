@@ -1,2 +1,0 @@
-# Joanilles
-po la dama
