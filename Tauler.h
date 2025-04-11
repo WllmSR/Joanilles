@@ -18,12 +18,15 @@ private:
 public:
 
     void inicialitza(const string& nomFitxer);  //constructor?
-    
+
+    //metode buida moviments
     void actualitzaMovimentsValids();  //a totes les fitxes + al vector de fitxes?
 
     bool mouFitxa(const Posicio& origen, const Posicio& desti);
 
     string toString() const;       //reconvertir al format del fitxer
+
+//pas a fitxers???
 };
 
 #endif
