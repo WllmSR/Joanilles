@@ -27,6 +27,7 @@ void Moviments::DFS(const Fitxa m_tauler[][8], vector<vector<Fitxa>>& recorregut
 int numCaptures(int index) const;
 //int numCapturesTotal()const es una funcio que retorna la suma de totes les peces que podem capturar de tots els camins possibles
 int numCapturesTotal()const;
+void mirarCapturesDames(const Fitxa& orifen, vector<Fitxa>& parametrePosicions, vector<pair<Fitxa, bool>>& parametreCaptures, const Fitxa m_taules[][8]){
 
 };
 
