@@ -81,6 +81,51 @@ void Moviments::mirarCapturesDretaEsquerra(const Casella& origen, vector<Casella
         parametreCaptures.push_back({Casella(filaNova, colEsq1), capturatEsquerra});
     }
 }
+void Moviments::DFS(const Fitxa m_tauler[][8], vector<vector<Fitxa>>& recorregut,vector<vector<Fitxa>>&pecesCaptured  const Fitxa& original) {
+    vector<vector<pair<Casella, bool>>> m_taulerVisitats;
+    m_taulerVisitats.resize(8, vector<pair<Fitxa, bool>>(8));
+    for (int i = 0; i < MAX_FILA; i++) {
+        for (int j = 0; j < MAX_COLUMNA; j++) {
+            m_taulerVisitats[i][j].first = m_tauler[i][j].m_posicio; 
+            m_taulerVisitats[i][j].second = false;
+        }
+    }
+
+    std::stack<pair<Fitxa, vector<Fitxa>>> m_stackPerVisitar;
+    m_stackPerVisitar.push({original, {original}});
+    vector<Fitxa> m_vectorCami;
+    vector<Fitxa>m_vector
+    while (!m_stackPerVisitar.empty()) {
+        auto element = m_stackPerVisitar.top();
+        temporal=element.first;
+        m_vector=element.second;
+        m_stackPerVisitar.pop();
+        if (!m_taulerVisitats[temporal.m_posicio.m_fila][temporal.m_posicio.m_columna].second) {
+            m_taulerVisitats[temporal.m_posicio.m_fila][temporal.m_posicio.m_columna].second = true;
+            vector<Fitxa> posicions;
+            vector<pair<Fitxa, bool>> capturades;
+            mirarCapturesDretaEsquerra(temporal, posicions, capturades, m_tauler);
+            if (!posicions.empty()) {
+                for (int i = 0; i < posicions.size(); i++) {
+                    if (!m_taulerVisitats[posicions[i].m_posicio.m_fila][posicions[i].m_posicio.m_columna].second) {
+                        vector<Fitxa> nouCami= m_vector;
+                        nouCami.push_back(posicions[i]);
+                        m_stackPerVisitar.push({posicions[i], nouCami});
+                    }
+                }
+            } else {
+                recorregut.push_back(m_vector)
+                pecesCaptured.push_back()
+            }
+        }
+    }
+    
+}
+
+
+
+
+
 Posicio Moviment::getDestiFinal() const{
   
 }
