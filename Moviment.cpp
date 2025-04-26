@@ -125,7 +125,30 @@ void Moviments::DFS(const Fitxa m_tauler[][8], vector<vector<Fitxa>>& recorregut
 
 
 
-
+void Moviment::mirarCapturesDames(const Fitxa& orifen, vector<Fitxa>& parametrePosicions, vector<pair<Fitxa, bool>>& parametreCaptures, const Fitxa m_taules[][8]){
+    //primer fem dreta i desepres fem esquerra. Em de tenir en compte 3 coses: podem estar parats, anar endevant sense matar i anar endavant i matar
+    
+    
+    //primer fem dreta
+    int i = ;
+    int j = ;
+    bool trobat=false;
+    while(!trobat&&esValid()){
+        
+    }
+    
+    
+    
+    
+    
+    int i =;
+    int j =;
+    bool trobat=false;
+    while(!trobat&& esValid()){
+        
+    }
+    
+}
 Posicio Moviment::getDestiFinal() const{
   
 }
