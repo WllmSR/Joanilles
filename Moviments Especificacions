@@ -1,3 +1,7 @@
 Dins de la classe Moviments, volem guardar quins moviments vàlids pot fer una fitxa desde una posició. Haurem de guardar la posició d'origen i les diferentes posicions de destí i també els camins.
 També haurem de guardar les fitxes enemigues que matem en un camí.
+Atributs ja definits:
+vector<Posicio> recorregut;
+vector<Posicio> pecesCapturades;
+Haurem de corregir aquests atributs, ja que nomes serveixen per guardar un camí, quan tenim que guardar diversos, en cas que una fitxa té diferents moviments vàlids diferents, és a dir, a vegades no tenim només un camí.
 Podem utilitzar l'algorisme DFS per poder explorar tots els possibles camins.
