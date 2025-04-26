@@ -18,8 +18,8 @@ public:
     void afegeixCaptura(const Posicio& p);     
     const vector<Posicio>& getRecorregut() const;
     const vector<Posicio>& getCaptures() const;
-
-    Posicio getDestiFinal() const;
+//la funcio mirarCapturesDretaEsquerra, s'haura de modificar una mica, els parametres no estan del tot correcta, pero l'estrucutra del codi està ben plantejat
+mirarCapturesDretaEsquerra(const Casella& origen, vector<Casella>& parametrePosicions, vector<pair<Casella, bool>>& parametreCaptures, const Casella m_tauler[][8])     Posicio getDestiFinal() const;
     int numCaptures() const;
 };
 
