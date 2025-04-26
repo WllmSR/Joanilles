@@ -1,0 +1,3 @@
+Dins de la classe Moviments, volem guardar quins moviments vàlids pot fer una fitxa desde una posició. Haurem de guardar la posició d'origen i les diferentes posicions de destí i també els camins.
+També haurem de guardar les fitxes enemigues que matem en un camí.
+Podem utilitzar l'algorisme DFS per poder explorar tots els possibles camins.
