@@ -5,6 +5,7 @@ Atributs ja definits:
 vector<Posicio> recorregut;
 vector<Posicio> pecesCapturades;
 Haurem de corregir aquests atributs, ja que nomes serveixen per guardar un camí, quan tenim que guardar diversos, en cas que una fitxa té diferents moviments vàlids diferents, és a dir, a vegades no tenim només un camí.
+Per tant, haurem de canviar vector<Posicio> recorregut i vector<Posicio> pecesCapturades per vector<vector<Fitxa>> m_recorregut i vector<vector<Fitxa>>m_capturades 
 
 Especificacions de mètodes:
 Per comprovar en quina direcció pot moure una fitxa concreta, farem us de mirarCapturesEsquerra. Aquest mètode rep com a parametre la posicio inicial de la fitxa que estem mirant 
