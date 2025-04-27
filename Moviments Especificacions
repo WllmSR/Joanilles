@@ -1,14 +1,48 @@
-Dins de la classe Moviments, volem guardar quins moviments vàlids pot fer una fitxa desde una posició. Haurem de guardar la posició d'origen i les diferentes posicions de destí i també els camins.
-També haurem de guardar les fitxes enemigues que matem en un camí.
-Especificacions d'atributs:
-Atributs ja definits:
-vector<Posicio> recorregut;
-vector<Posicio> pecesCapturades;
-Haurem de corregir aquests atributs, ja que nomes serveixen per guardar un camí, quan tenim que guardar diversos, en cas que una fitxa té diferents moviments vàlids diferents, és a dir, a vegades no tenim només un camí.
-Per tant, haurem de canviar vector<Posicio> recorregut i vector<Posicio> pecesCapturades per vector<vector<Fitxa>> m_recorregut i vector<vector<Fitxa>>m_capturades 
+A continuació tenim l'explicació sobre cada mètode de la classe Moviments (només el que retorna i què és el que fa):
+(també atributs)
 
-Especificacions de mètodes:
-Per comprovar en quina direcció pot moure una fitxa concreta, farem us de mirarCapturesEsquerra. Aquest mètode rep com a parametre la posicio inicial de la fitxa que estem mirant 
-Especificacions generals de l'algorisme: 
-Podem utilitzar l'algorisme DFS per poder explorar tots els possibles camins.
+vector<vector<Fitxa>> recorregut; Aquest atribut guarda tots els camins possibles desde una posició concreta (la peça actual).
+Abans teniem vector<Fitxa>, que nomes serveix per guardar un camí, he suposat que podem tenir diferents camins en total
 
+vector<vector<Fitxa>> pecesCapturades; Aquest atribut serveix per guardar les captures diferents que podem fer en els diferents camins (les captures 1 corresponent amb el camí 1 del'atribut recorregut).
+Abans teniem vector<Fitxa>, que nomes serviex per guardar les captures d'un camí. Tenim diferents camins per tant diferentes captures.
+
+Moviment(); Dins del constructor, no cal implementar
+
+~Moviment(); Dins del descturctor no s'ha fet res ja que he fet us de la llibreria stl, que gestiona tota la memoria ella mateixa
+
+void afegeixPas(const Posicio& p); al final no he utilitzat aquest metode
+
+void afegeixCaptura(const Posicio& p); al final ho he utilitzat aquest metode     
+
+const vector<Posicio>& getRecorregut(int posicioIndex) const; Aquest mètode rep com a paràmetre quin camí/recorregut volem retornar. El camí que volem retornar ve donat per l'index que ens donen com a parametre
+
+const vector<Posicio>& getCaptures(int posicioIndex) const; Aquest mètode rep com a paràmetre un index que ens diu quines captures del camí corresponent volem retornar
+
+void mirarCapturesDretaEsquerra(const Fitxa& origen, vector<Fitxa>& parametrePosicions, vector<pair<Fitxa, bool>>& parametreCaptures, const Fitxa m_tauler[][8])     Posicio getDestiFinal() const;
+Aquest metode (mirarCapturesDretaEsquerra) es un mètode exclusiu per fitxes normals (no dames ni buides). Aquest mètode retorna els camins possibles que pot fer una fitxa desde una posició d'inici, sense modificar la posició real de la fitxa original. Enrecorda: només ho fa per un moviment.
+A la funció es té en compte : fora de limit del tauler (no es pot moure), doble enemic (no es pot moure perque hi han dos enemics junts ), amic(no es pot moure perque hi ha un amic a la direcció que estem calculant), moure en una posició buida sense captura, moure a posició buida amb captura.
+El mètode calcul·la el moviment tant per l'esquerra com per la dreta. Els resultats (les posicions) tant del destí després de fer el moviment de la peça original com les peces capturades estan guardades dins de vectors corresponents.
+Hem de tenir en compte que només tenim dos vectors, un per posicions destí i l'altre per capturades, el primer element dels dos vectors correspont direcció dreta.
+
+void DFSNormal(const Fitxa m_tauler[][8], vector<vector<Fitxa>>& recorregut,vector<vector<Fitxa>>&pecesCaptured , const Fitxa& original); //aquesta funcio es la que s'ha de cridar per fer el DFS, i es la que s'ha de modificar per fer el DFS normal
+Aquest mètode (DFSNormal) calcula tots els camins possiblesi les captures possibles per la fitxa original. Fa ús de la funció anterior(mirarCapturesDretaEsquerra) per calcular un sol moviment per la peça.
+La funció fa ús del DFS, ja que estem explorant el tauler en profunditat als llocs on podem arribar amb la peça original.
+
+void mirarCapturesDames(const Fitxa& origen,vector<Fitxa>& parametrePosicionsDreta,vector<Fitxa>& parametrePosicionsEsquerra, vector<pair<Fitxa, bool>>& parametreCapturesDreta,vector<pair<Fitxa, bool>>& parametreCapturadesEsquerra, const Fitxa m_taules[][9]); 
+El mètode mirarCapturesDames, es bastant similar a la funció mirarCapturesDretaEsquerra però per dames. El header de la funció, es a dir, la seva declaració, és diferent: hem afegit dos vectors extres, per tant tenim 2 vectors dedicats per guardar les posicions destí de la peça original(direcció dreta i direcció esquerra) i dos vectors dedicats per guardar les captures(direcció dreta i direcció esquerra).
+S'han afegit més vectors perquè en comparació de fitxes normals, les dames poden fer un conjunt de moviments seguits sense haver de matar un enemic.
+
+void DFSDames(const Fitxa m_tauler[][8], vector<vector<Fitxa>>& recorregut,vector<vector<Fitxa>>&pecesCaptured , const Fitxa& original);    
+Aquesta funció comparteix la mateixa filosofia que el mètode DFSNormal però per dames.
+
+int numCaptures(int index) const; numCaptures ens retorna el numero de captures d'un camí en concret
+int numCapturesTotal()const; numCapturesTotal ens retorna el numero de captures totals (totes les captures possibles).
+Potser s'haurà de modificar, perque podem repetir captures.
+
+void actualitzaMoviments(const Fitxa m_tauler[][8], const Fitxa& original, vector<Fitxa>& m_posicionsPossibles, vector<Fitxa>& m_posicionsCapturades);
+La funcio actualitzaMoviments es la funció "main" de les 4 funcions principals de la classe moviment: DFSNormal, DFSDames, mirarCapturesDretaEsquerra i mirarCapturesDames.
+Primer comprova si la peça en qüestió és una dama o normal o buit. Si és normal es crida DFSNormal, si és dama es crida DFSDama i si és buit no es fa res.
+Després d'actualitzar els atributs m_recorregut (guarda la ruta que ha de fer la peça original per cada camí possible separat) i m_captures (guarda les captures de cada camí separat), 
+guardem dins dels parametres totes les posicions possibles que pot tenir la peça original (destins), és a dir, transcorrem per m_recorregut i guardem dins del parametre totes les fitxes/posicions sense repetir ninguna fitxa, 
+};
