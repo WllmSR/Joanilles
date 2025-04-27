@@ -1,28 +1,32 @@
 #include "Fitxa.h"
 
-Fitxa::Fitxa(){
-}
-Fitxa::Fitxa(TipusFitxa t, ColorFitxa c){
-  m_tipusFitxa=t;
-  m_colorFitxa=c;
-}      
-TipusFitxa Fitxa::getTipus() const{
-  return m_tipusFitxa;}
-ColorFitxa Fitxa::getColor() const{return m_colorFitxa;}
-void Fitxa::setTipus(TipusFitxa t){
-  m_tipusFitxa=t;}
-void Fitxa::setColor(ColorFitxa c){
-  m_colorFitxa=c;}
-void Fitxa::afegeixMoviment(const Moviment& m){
-  
-}
-const vector<Moviment>& Fitxa::getMoviments() const{
-      
-}
-void Fitxa::netejaMoviments(){
-  
-}
-bool Fitxa::esBuida() const{
-}
-void Fitxa::ferDama(){
+Fitxa::Fitxa(char tipusIcolor, const array<char, 2>& pos)
+{
+    switch (tipusIcolor) 
+    {
+        case 'O':
+            tipus = TIPUS_NORMAL;
+            color = COLOR_BLANC;
+            break;
+        case 'X':
+            tipus = TIPUS_NORMAL;
+            color = COLOR_NEGRE;
+            break;
+        case 'D':
+            tipus = TIPUS_DAMA;
+            color = COLOR_BLANC;
+            break;
+        case 'R':
+            tipus = TIPUS_DAMA;
+            color = COLOR_NEGRE;
+            break;
+        default:
+            tipus = TIPUS_EMPTY;
+            color = COLOR_EMPTY;
+            break;
+    }
+
+    posFitxa(pos);
+
+    //JOANNNNNN
 }
