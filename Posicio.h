@@ -15,7 +15,7 @@ private:
 public:
     Posicio() { fila = 0; columna = 0; }
     Posicio(const string& pos);
-
+    Posicio(int Nfila, int Ncolumna){fila=Nfila; Ncolumna=columna;}
     int getFila() const { return fila; }
     int getColumna() const { return columna; }
 
