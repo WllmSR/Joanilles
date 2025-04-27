@@ -4,6 +4,7 @@
 #include "fitxa.h"
 #include "posicio.h"
 #include <string>
+#include <array>
 using namespace std;
 
 #define N_FILES 8
