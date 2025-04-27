@@ -23,7 +23,7 @@ private:
     TipusFitxa tipus;
     ColorFitxa color;
     Posicio posFitxa;
-    vector<Moviment> moviments;
+    Moviment moviments;
 
 public:
     Fitxa() { tipus = TIPUS_EMPTY; color = COLOR_EMPTY; posFitxa(); }
