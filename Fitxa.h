@@ -42,6 +42,9 @@ public:
 
     bool movimentsEsBuit() const { return moviments.empty(); }
     void ferDama() { tipus = TIPUS_DAMA; }
+    bool esBuit()const{return tipus==COLOR_EMPTY;}
+    bool esAmic(const Fitxa& variable)const{return color==variable.color;}
+    bool esEnemic(const Fitxa& variable)const{return color!=variable.color;}
 };
 
 #endif
