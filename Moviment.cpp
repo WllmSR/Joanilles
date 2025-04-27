@@ -268,8 +268,7 @@ int Moviment::numCaptures() const{
 bool Moviment::esCaptura() const{
 }
 void Moviment::actualitzaMoviments(const Fitxa m_tauler[][8], const Fitxa& original, vector<Fitxa>& m_posicionsPossibles, vector<Fitxa>& m_posicionsCapturades){
-    DFS(m_tauler,m_recorregut, m_pecesCapturades, original);
-    if(original.getTipus()==Tipus_DAMA){
+     if(original.getTipus()==Tipus_DAMA){
         DFSDames(m_tauler, m_recorregut, m_pecesCapturades, original);
     }else if(orifinal.getTipus()==Tipus_NORMAL){
         DFSNormal(m_tauler, m_recorregut, m_pecesCapturades, original);
@@ -280,6 +279,7 @@ void Moviment::actualitzaMoviments(const Fitxa m_tauler[][8], const Fitxa& origi
         for(const auto element: fitxa){
             if(find(m_posicionsPossibles.begin(), m_posicionsPossibles.end(), element)==m_posicionsPossibles.end()){
                 m_posicionsPossibles.push_back(element);
+                destins.puhs_back(element);
             }
         }
     }
