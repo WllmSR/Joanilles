@@ -14,33 +14,35 @@ typedef enum {
 
 typedef enum {
     COLOR_NEGRE = -1,
-    COLOR_BLANC = 1
+    COLOR_BLANC = 1,
+    COLOR_EMPTY = 0
 } ColorFitxa;
 
 class Fitxa {
 private:
     TipusFitxa tipus;
     ColorFitxa color;
-    Posicio posFitxa;                   //no ho haviem posat
+    Posicio posFitxa;
     vector<Moviment> moviments;
 
 public:
-    Fitxa();
-    Fitxa(TipusFitxa t, ColorFitxa c);   //es poden passar chars/ints
+    Fitxa() { tipus = TIPUS_EMPTY; color = COLOR_EMPTY; posFitxa(); }
+    Fitxa(char tipusIcolor, const array<char, 2>& pos);                                   //Joannnnn
 
-    TipusFitxa getTipus() const;
-    ColorFitxa getColor() const;
+    TipusFitxa getTipus() const { return tipus; }
+    ColorFitxa getColor() const { return color; }
+    const vector<Moviment>& getMoviments() const { return moviments; }
 
-    void setTipus(TipusFitxa t);     //setters?
-    void setColor(ColorFitxa c);
+    void setTipus(int t) { tipus = (TipusFitxa)t; }
+    void setColor(int c) { color = (ColorFitxa)c; }
 
-    void afegeixMoviments(const Moviment& m);
-    const vector<Moviment>& getMoviments() const;
+    void afegeixMoviments(const Moviment& m);                                       //Joannnn
 
-    void netejaMoviments(); 
+    void netejaMoviments() { moviments.clear(); }
 
-    bool esBuida() const; //"moviments?" + kills???
-    void ferDama();
+    bool movimentsEsBuit() const { return moviments.empty(); }
+    void ferDama() { tipus = TIPUS_DAMA; }
 };
 
 #endif
+
