@@ -157,4 +157,4 @@ int Moviment::numCaptures() const{
 bool Moviment::esCaptura() const{
 }
 
-#endif
+
