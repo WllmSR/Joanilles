@@ -27,6 +27,8 @@ Fitxa::Fitxa(char tipusIcolor, const array<char, 2>& pos)
     }
 
     posFitxa(pos);
+    //original, es la Fitxa que estem calculant
+actualitzaMoviments(m_tauler, original,  m_posicionsPossibles, m_posicionsCapturades)
 
     //JOANNNNNN
 }
