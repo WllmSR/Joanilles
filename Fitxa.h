@@ -7,25 +7,26 @@
 using namespace std;
 
 typedef enum {
-    TIPUS_NORMAL,
-    TIPUS_DAMA,
-    TIPUS_EMPTY
+    TIPUS_EMPTY = -1,
+    TIPUS_NORMAL = 0,
+    TIPUS_DAMA = 1
 } TipusFitxa;
 
 typedef enum {
-    COLOR_NEGRE,   //-1?
-    COLOR_BLANC    //+1?
+    COLOR_NEGRE = -1,
+    COLOR_BLANC = 1
 } ColorFitxa;
 
 class Fitxa {
 private:
     TipusFitxa tipus;
     ColorFitxa color;
+    Posicio posFitxa;                   //no ho haviem posat
     vector<Moviment> moviments;
 
 public:
     Fitxa();
-    Fitxa(TipusFitxa t, ColorFitxa c);
+    Fitxa(TipusFitxa t, ColorFitxa c);   //es poden passar chars/ints
 
     TipusFitxa getTipus() const;
     ColorFitxa getColor() const;
@@ -43,4 +44,3 @@ public:
 };
 
 #endif
-
