@@ -10,8 +10,9 @@
 using namespace std;
 class Moviment {
 private:
-    vector<vector<Fitxa>> recorregut;
-    vector<vector<Fitxa>> pecesCapturades;
+    vector<vector<Posicio>> recorregut;
+    vector<vector<Posicio>> pecesCapturades;
+    vector<Posicio> destins
 public:
     Moviment();
     ~Moviment();
