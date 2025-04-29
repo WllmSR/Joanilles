@@ -13,9 +13,9 @@ bool Posicio::operator==(const Posicio& other) const
 
 Posicio& Posicio::operator=(const Posicio& other)
 {
-  {
+  
       fila = other.fila;
       columna = other.columna;
-  }
+  
   return *this;    //punter GOD
 }
