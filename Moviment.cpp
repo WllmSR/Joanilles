@@ -364,14 +364,14 @@ void Moviment::actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& ori
     //vector<Posicio>& m_posicionsPossibles, vector<Posicio>& m_posicionsCapturades
     for(const auto fitxa: recorregut){
         for(const auto element: fitxa){
-            if(find(m_posicionsPossibles.begin(), m_posicionsPossibles.end(), element)==m_posicionsPossibles.end()){
+            if(find(destins.begin(), destins.end(), element)==destins.end()){
                 destins.push_back(element);
             }
         }
     }
     for(const auto fitxa: pecesCapturades){
         for(const auto element: fitxa){
-            if(find(m_posicionsCapturades.begin(), m_posicionsCapturades.end(), element)==m_posicionsCapturades.end()){
+            if(find(captures.begin(),captures.end(), element)==captures.end()){
                 captures.push_back(element);
             }
         }
