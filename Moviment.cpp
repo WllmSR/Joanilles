@@ -361,10 +361,10 @@ void Moviment::actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& ori
     }else{
         return;
     }
+    //vector<Posicio>& m_posicionsPossibles, vector<Posicio>& m_posicionsCapturades
     for(const auto fitxa: recorregut){
         for(const auto element: fitxa){
             if(find(m_posicionsPossibles.begin(), m_posicionsPossibles.end(), element)==m_posicionsPossibles.end()){
-                m_posicionsPossibles.push_back(element);
                 destins.push_back(element);
             }
         }
@@ -372,8 +372,10 @@ void Moviment::actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& ori
     for(const auto fitxa: pecesCapturades){
         for(const auto element: fitxa){
             if(find(m_posicionsCapturades.begin(), m_posicionsCapturades.end(), element)==m_posicionsCapturades.end()){
-                m_posicionsCapturades.push_back(element);
+                captures.push_back(element);
             }
         }
     }   
+    //per copiar tots els camins:
+    
 }
