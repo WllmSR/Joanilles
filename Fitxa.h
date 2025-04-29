@@ -27,7 +27,7 @@ private:
 
 public:
     Fitxa() { tipus = TIPUS_EMPTY; color = COLOR_EMPTY; posFitxa(); }
-    Fitxa(char tipusIcolor, const array<char, 2>& pos);                                   //Joannnnn
+    Fitxa(char tipusIcolor, const array<char, 2>& pos, const Fitxa& tauler[][9]);                                   //Joannnnn
 
     TipusFitxa getTipus() const { return tipus; }
     ColorFitxa getColor() const { return color; }
