@@ -16,9 +16,12 @@ void Tauler::inicialitza(const string& nomFitxer){
     if(myfile.is_open()){
         char columna="";
         char fila="";
+        char tipusFitxa="";
+        char tipusColor="";
         while(!eof()){
             myfile>>columna;
             myfile>>fila;
+            
             //despres continuem amb la inicialització
         }
     }
