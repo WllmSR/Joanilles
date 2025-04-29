@@ -15,9 +15,10 @@ private:
     vector<vector<Posicio>> pecesCapturades;
     vector<Posicio> destins;
     vector<Posicio> captures;
+int mnumTotalCapturades;
 public:
-    Moviment(){}
-    ~Moviment(){}
+    Moviment(){mnumTotalCapturades=0;}
+    ~Moviment(){mnumTotalCapturades=0;}
 void CleanMoviment()const{
     for(int i =0;i<recorregut.size();i++){
         recorregut[i].clear();
@@ -28,16 +29,25 @@ void CleanMoviment()const{
     }
     pecesCapturades.clear();
     destins.clear();
+    mnumTotalCapturades=0;
 }
-  const vector<Posicio>& Moviment::getRecorregut(int posicioIndex) const{
+  const vector<Posicio>& getRecorregut(int posicioIndex) const{
 return recorregut[posicioIndex];
 }
-const vector<Posicio>& Moviment::getCaptures(int posicioIndex) const{
+const vector<Posicio>& getCaptures(int posicioIndex) const{
 return pecesCapturades[posicioIndex]; 
 }
 void mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Posicio, int>>& parametrePosicions, vector<pair<Posicio, bool>>& parametreCaptures, const Fitxa m_tauler[][9]);
 
-Posicio getDestiFinal() const;
+Posicio getDestiFinal(int index) const{
+destins(index);
+}
+vector<vector<Posicio>>& getTotalRecorregut()const{return recorregut;}
+vector<vector<Posicio>>& getTotalCaptures()const{return pecesCapturades;}
+int getNumCap(int index)const{return pecesCapturades[index];}
+int getNumTotalCap()const{
+return mnumTotalCapturades;
+}
 void DFSDames(const Fitxa m_tauler[][9], vector<vector<Posicio>>& recorregut,vector<vector<Posicio>>&pecesCaptured , const Posicio& original);    
 void DFSNormal(const Fitxa m_tauler[][9], vector<vector<Posicio>>& recorregut,vector<vector<Posicio>>&pecesCaptured , const Posicio& original); //aquesta funcio es la que s'ha de cridar per fer el DFS, i es la que s'ha de modificar per fer el DFS normal
 int numCaptures(int index) const;
