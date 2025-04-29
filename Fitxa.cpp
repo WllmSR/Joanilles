@@ -1,6 +1,6 @@
 #include "Fitxa.h"
 
-Fitxa::Fitxa(char tipusIcolor, const array<char, 2>& pos)
+Fitxa::Fitxa(char tipusIcolor, const array<char, 2>& pos, const Fitxa& tauler[][9])
 {
     switch (tipusIcolor) 
     {
@@ -28,7 +28,8 @@ Fitxa::Fitxa(char tipusIcolor, const array<char, 2>& pos)
 
     posFitxa(pos);
     //original, es la Fitxa que estem calculant
-moviments.actualitzaMoviments(m_tauler,posFitxa);
+    //const Fitxa& tauler[][9]
+moviments.actualitzaMoviments(tauler,posFitxa);
 
     //JOANNNNNN
 }
