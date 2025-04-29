@@ -15,8 +15,19 @@ private:
     vector<vector<Posicio>> pecesCapturades;
     vector<Posicio> destins;
 public:
-    Moviment();
-    ~Moviment();
+    Moviment(){}
+    ~Moviment(){}
+void CleanMoviment()const{
+    for(int i =0;i<recorregut.size();i++){
+        recorregut[i].clear();
+    }
+    recorregut.clear();
+    for(int i =0;i<pecesCapturades.size();i++){
+        pecesCapturades[i].clear();
+    }
+    pecesCapturades.clear();
+    destins.clear();
+}
   const vector<Posicio>& Moviment::getRecorregut(int posicioIndex) const{
 return recorregut[posicioIndex];
 }
@@ -32,7 +43,7 @@ int numCaptures(int index) const;
 int numCapturesTotal()const;
 void mirarCapturesDames(int AmuntBaix,int continuarDreta, int continuarEsquerra,const Posicio& origen,vector<Posicio>& parametrePosicionsDreta,vector<Posicio>& parametrePosicionsEsquerra, pair<Posicio, bool>& parametreCapturesDreta,pair<Posicio, bool>& parametreCapturadesEsquerra, const Fitxa m_taules[][9]); 
 
-void actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original, vector<Posicio>& m_posicionsPossibles, vector<Posicio>& m_posicionsCapturades);
+void actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original);
 
 bool esValid(int fila, int columna)const{return (fila>=0&&fila<=8)&&(columna>=0&&columna<=8);}
 };
