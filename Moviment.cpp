@@ -13,7 +13,7 @@ void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Pos
     ColorFitxa colourTemporal =  m_tauler[origen.getFila()][origen.getColumna()].getColor();
     int staticTemporal = static_cast<int>(colourTemporal);
     if (esValid(origen.getFila() + staticTemporal, origen.getColumna() + 1)) {
-        if (!m_tauler[origen.getFila() + staticTemporal][origen.getColumna() + 1].esAmic(origen)) {
+        if (!m_tauler[origen.getFila() + staticTemporal][origen.getColumna() + 1].esAmic(m_tauler[origen.getFila()][origen.getColumna()])) {
             colDret1 = origen.getColumna() + 1;
             filaNova = origen.getFila() + staticTemporal;
      //vol dir que es enemic o espai buit
@@ -21,7 +21,7 @@ void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Pos
             valoRetornDreta=1;
     }
     if (esValid(origen.getFila() +staticTemporal, origen.getColumna() - 1)) {
-        if (!m_tauler[origen.getFila() + staticTemporal][origen.getColumna() - 1].esAmic(origen)) {
+        if (!m_tauler[origen.getFila() + staticTemporal][origen.getColumna() - 1].esAmic(m_tauler[origen.getFila()][origen.getColumna()])) {
             colEsq1 = origen.getColumna() - 1;
             filaNova = origen.getFila() + staticTemporal;
         }else
@@ -34,7 +34,7 @@ void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Pos
                 colDret2 = colDret1;
                 filaNova2 = filaNova;
                     valoRetornDreta=0;
-            } else if (m_tauler[filaNova][colDret1].esEnemic(origen)) {
+            } else if (m_tauler[filaNova][colDret1].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])) {
                 if (esValid(filaNova + staticTemporal, colDret1 + 1) && m_tauler[filaNova + staticTemporal][colDret1 + 1].esBuit()) {
                     filaNova2 = filaNova +staticTemporal; 
                     colDret2 = colDret1 + 1;
@@ -50,7 +50,7 @@ void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Pos
                 colEsq2 = colEsq1;
                 filaNova2 = filaNova;
                 valoRetornEsquerra=0;
-            } else if (m_tauler[filaNova][colEsq1].esEnemic(origen)) {
+            } else if (m_tauler[filaNova][colEsq1].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])) {
                 if (esValid(filaNova + staticTemporal, colEsq1 - 1) && m_tauler[filaNova + staticTemporal][colEsq1 - 1].esBuit()) {
                     filaNova2 = filaNova + staticTemporal;
                     colEsq2 = colEsq1 - 1;
@@ -155,13 +155,13 @@ void Moviment::mirarCapturesDames(int AmuntBaix,int continuarDreta, int continua
             parametrePosicionsDreta.push_back(m_tauler[i][j].getPosicio());
             i=i+staticTemporal;
             j=j+1;
-        }else if(m_tauler[i][j].esEnemic(origen)||m_tauler[i][j].esAmic(origen)){
+        }else if(m_tauler[i][j].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])||m_tauler[i][j].esAmic(m_tauler[origen.getFila()][origen.getColumna()])){
             trobat=true;
         }    
         
     }
     if(trobat){
-       if(m_tauler[i][j].esEnemic(origen)){
+       if(m_tauler[i][j].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])){
             if(m_tauler[i+staticTemporal][j+1].esBuit()){
                 parametrePosicionsDreta.push_back(m_tauler[i+staticTemporal][j+1].getPosicio());
             parametreCapturesDreta=make_pair(m_tauler[i][j].getPosicio(), true);
@@ -200,12 +200,12 @@ void Moviment::mirarCapturesDames(int AmuntBaix,int continuarDreta, int continua
         i=i+staticTemporal;
         j=j-1;
      }
-     else if(m_tauler[i][j].esEnemic(origen)||m_tauler[i][j].esAmic(origen)){
+     else if(m_tauler[i][j].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])||m_tauler[i][j].esAmic(m_tauler[origen.getFila()][origen.getColumna()])){
         trobat=true;
      }
     }
     if(trobat){
-        if(m_tauler[i][j].esEnemic(origen)){
+        if(m_tauler[i][j].esEnemic(m_tauler[origen.getFila()][origen.getColumna()])){
             if(m_tauler[i+staticTemporal][j-1].esBuit()){
                 parametrePosicionsEsquerra.push_back(m_tauler[i+staticTemporal][j-1].getPosicio());
            parametreCapturadesEsquerra = make_pair(m_tauler[i][j].getPosicio(), true);
