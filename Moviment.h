@@ -14,6 +14,7 @@ private:
     vector<vector<Posicio>> recorregut;
     vector<vector<Posicio>> pecesCapturades;
     vector<Posicio> destins;
+    vector<Posicio> captures;
 public:
     Moviment(){}
     ~Moviment(){}
