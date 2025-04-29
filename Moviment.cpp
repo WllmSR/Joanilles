@@ -373,6 +373,7 @@ void Moviment::actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& ori
         for(const auto element: fitxa){
             if(find(captures.begin(),captures.end(), element)==captures.end()){
                 captures.push_back(element);
+                mnumTotalCapturades++;
             }
         }
     }   
