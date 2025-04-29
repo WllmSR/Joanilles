@@ -17,7 +17,8 @@ private:
     //vector de fitxes "utilitzables?
 
 public:
-
+    Tauler();
+    ~Tauler(){}
     void inicialitza(const string& nomFitxer);  //constructor?
 
     //metode buida moviments
