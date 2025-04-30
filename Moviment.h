@@ -42,7 +42,8 @@ void mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Posicio, int>
 Posicio getDestiFinal(int index) const{
 destins(index);
 }
-vector<vector<Posicio>>& getTotalRecorregut()const{return destins;}
+vector<vector<Posicio>>& getTotalRecorregut()const{return recorregut;}
+vector<Posicions>& getTotalDestins()const{return destins;}
 vector<vector<Posicio>>& getTotalCaptures()const{return pecesCapturades;}
 int getNumCap(int index)const{return pecesCapturades[index];}
 int getNumTotalCap()const{
