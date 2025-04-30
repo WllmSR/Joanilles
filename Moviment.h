@@ -19,7 +19,7 @@ int mnumTotalCapturades;
 public:
     Moviment(){mnumTotalCapturades=0;}
     ~Moviment(){mnumTotalCapturades=0;}
-void CleanMoviment()const{
+void CleanMoviment(){
     for(int i =0;i<recorregut.size();i++){
         recorregut[i].clear();
     }
