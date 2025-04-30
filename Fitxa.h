@@ -45,7 +45,10 @@ public:
     bool esBuit()const{return tipus==COLOR_EMPTY;}
     bool esAmic(const Fitxa& variable)const{return color==variable.color;}
     bool esEnemic(const Fitxa& variable)const{return color!=variable.color;}
-    void calcularPosicionsPossibles(){}
+    void calcularPosicionsPossibles(const Fitxa m_tauler[][9], const Posicio& original){
+        moviments.actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original);
+
+    }
 };
 
 #endif
