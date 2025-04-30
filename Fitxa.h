@@ -31,7 +31,7 @@ public:
 
     TipusFitxa getTipus() const { return tipus; }
     ColorFitxa getColor() const { return color; }
-    const vector<Moviment>& getMoviments() const { return moviments; }
+    const Moviment getMoviments() const { return moviments; }
 
     void setTipus(int t) { tipus = (TipusFitxa)t; }
     void setColor(int c) { color = (ColorFitxa)c; }
