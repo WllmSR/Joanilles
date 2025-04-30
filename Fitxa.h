@@ -38,7 +38,7 @@ public:
 
     void afegeixMoviments(const Moviment& m);                                       //Joannnn
 
-    void netejaMoviments() { moviments.clear(); }
+    void netejaMoviments() { moviments.CleanMoviment(); }
 
     bool movimentsEsBuit() const { return moviments.empty(); }
     void ferDama() { tipus = TIPUS_DAMA; }
