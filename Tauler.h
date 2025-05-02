@@ -1,6 +1,6 @@
 #ifndef TAULER_H
 #define TAULER_H
-
+#include <array>
 #include "fitxa.h"
 #include "posicio.h"
 #include <string>
