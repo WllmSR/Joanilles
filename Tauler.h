@@ -20,12 +20,9 @@ public:
     ~Tauler(){}
     void inicialitza(const string& nomFitxer);  
     string toString() const;      
-void inicialitza(const string& nomFitxer);
-void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
-void actualitzaMovimentsValids(); 
-bool mouFitxa(const Posicio& origen, const Posicio& desti);
-
-//pas a fitxers???
+    void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
+    void actualitzaMovimentsValids(); 
+    bool mouFitxa(const Posicio& origen, const Posicio& desti);
 };
 
 
