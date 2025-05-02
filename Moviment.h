@@ -71,7 +71,7 @@ void actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original);
 bool esValid(int fila, int columna);
 
 };
-bool Moviment::esValid(int fila, int columna); {
+bool Moviment::esValid(int fila, int columna){
     return (fila >= 0 && fila <= 8) && (columna >= 0 && columna <= 8);
 }
 #endif
