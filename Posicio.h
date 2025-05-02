@@ -3,6 +3,7 @@
 
 //IMPORTANT: les files van de 1 a 8, no de 0 a 7.
 
+#include <array>
 #include <string>
 using namespace std;
 
