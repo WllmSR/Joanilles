@@ -14,7 +14,6 @@ class Tauler {
 private:
 
     Fitxa m_tauler[N_FILES][N_COLUMNES];
-    //vector de fitxes "utilitzables?
 
 public:
     Tauler();
@@ -31,4 +30,4 @@ public:
 //pas a fitxers???
 };
 
-#endif
+
