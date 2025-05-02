@@ -21,7 +21,7 @@ public:
     int getColumna() const { return columna; }
 
     bool operator==(const Posicio& other) const;
-    Posicio& operator=(const Posicio& other)
+    Posicio& operator=(const Posicio& other);
 };
 
 #endif
