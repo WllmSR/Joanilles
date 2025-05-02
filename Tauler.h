@@ -18,14 +18,12 @@ private:
 public:
     Tauler();
     ~Tauler(){}
-    void inicialitza(const string& nomFitxer);  //constructor?
-
-    //metode buida moviments
-    void actualitzaMovimentsValids();  //a totes les fitxes + al vector de fitxes?
-
-    bool mouFitxa(const Posicio& origen, const Posicio& desti);
-
-    string toString() const;       //reconvertir al format del fitxer
+    void inicialitza(const string& nomFitxer);  
+    string toString() const;      
+void inicialitza(const string& nomFitxer);
+void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
+void actualitzaMovimentsValids(); 
+bool mouFitxa(const Posicio& origen, const Posicio& desti);
 
 //pas a fitxers???
 };
