@@ -82,6 +82,76 @@ bool Tauler::mouFitxa(const Posicio& origen, const Posicio& desti) {
     return false;
 }
 
+string Tauler::toString() const 
+{
+    vector<string> linies;
+    int nLinies = 0;
+
+    for (int fila = 0; fila < N_FILES; ++fila) 
+    {
+        for (int col = 0; col < N_COLUMNES; ++col) 
+        {
+
+            const Fitxa& fitxa = m_tauler[fila][col];
+
+            if (fitxa.getTipus() != TIPUS_EMPTY) 
+            {
+                char codiPeça;
+
+                switch (fitxa.getColor()) 
+                {
+                    case COLOR_BLANC:
+                        switch (fitxa.getTipus()) {
+                            case TIPUS_NORMAL:
+                                codiPeça = 'O';
+                                break;
+                            case TIPUS_DAMA:
+                                codiPeça = 'D';
+                                break;
+                            default:
+                                continue;
+                        }
+                        break;
+
+                    case COLOR_NEGRE:
+                        switch (fitxa.getTipus()) 
+                        {
+                            case TIPUS_NORMAL:
+                                codiPeça = 'X';
+                                break;
+                            case TIPUS_DAMA:
+                                codiPeça = 'R';
+                                break;
+                            default:
+                                continue;
+                        }
+                        break;
+
+                    default:
+                        continue;
+                }
+
+                char codiColumna = 'a' + col;
+                char codiFila = '1' + fila;
+                
+                string unaLinia = string(1, codiPeça) + " " + codiColumna + codiFila;       //fa tot string directament
+                linies.push_back(unaLinia);
+
+                nLinies++;
+            }
+        }
+    }
+
+    string finalment = "";
+
+    for (int i = 0; i < nLinies; ++i) 
+    {
+        finalment += linies[i];
+        finalment += '\n';
+    }
+
+    return finalment;
+}
 
 
 
