@@ -40,7 +40,8 @@ void mirarCapturesDretaEsquerra(const Posicio& origen, vector<pair<Posicio, int>
 void mirarCapturesDames(int AmuntBaix, int& continuarDreta, int& continuarEsquerra, const Posicio& origen, vector<Posicio>& parametrePosicionsDreta, vector<Posicio>& parametrePosicionsEsquerra, pair<Posicio, bool>& parametreCapturesDreta, pair<Posicio, bool>& parametreCapturadesEsquerra, const Fitxa m_tauler[][9]);
 void DFSDames(const Fitxa m_tauler[][9], vector<vector<Posicio>>& recorregut, vector<vector<Posicio>>& pecesCaptured, const Posicio& original);
 void DFSNormal(const Fitxa m_tauler[][9], vector<vector<Posicio>>& recorregut, vector<vector<Posicio>>& pecesCaptured, const Posicio& original) 
-    {
+void actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original)
+ {
         TipusFitxa titits = m_tauler[original.getFila()][original.getColumna()].getTipus();
         if (titits == TIPUS_DAMA) {
             DFSDames(m_tauler, recorregut, pecesCapturades, original);
@@ -66,7 +67,7 @@ void DFSNormal(const Fitxa m_tauler[][9], vector<vector<Posicio>>& recorregut, v
             }
         
 }
-void actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original);
+
 
 bool esValid(int fila, int columna);
 
