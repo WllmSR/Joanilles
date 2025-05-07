@@ -1,11 +1,7 @@
+#pragma once
 #ifndef POSICIO_H
 #define POSICIO_H
-
-//IMPORTANT: les files van de 1 a 8, no de 0 a 7.
-
 #include <array>
-#include <string>
-using namespace std;
 
 class Posicio
 {
@@ -15,8 +11,9 @@ private:
 
 public:
     Posicio() { fila = 0; columna = 0; }
-    Posicio(const array<char, 2>& pos);
-    Posicio(int Nfila, int Ncolumna){fila=Nfila; Ncolumna=columna;}
+    Posicio(const std::array<char, 2>& pos);
+    void inicialitza(int fill, int coll) { fila = fill; columna = coll; }
+    Posicio(int Nfila, int Ncolumna) { fila = Nfila; columna = Ncolumna; }
     int getFila() const { return fila; }
     int getColumna() const { return columna; }
 
