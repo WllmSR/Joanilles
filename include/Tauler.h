@@ -1,11 +1,11 @@
+#pragma once
 #ifndef TAULER_H
 #define TAULER_H
-#include <array>
-#include "fitxa.h"
-#include "posicio.h"
+#include "Fitxa.h"
+
 #include <string>
+#include <fstream>
 #include <array>
-using namespace std;
 
 #define N_FILES 8
 #define N_COLUMNES 8
@@ -16,13 +16,11 @@ private:
     Fitxa m_tauler[N_FILES][N_COLUMNES];
 
 public:
-    Tauler();
-    ~Tauler(){}
-    void inicialitza(const string& nomFitxer);  
-    string toString() const;      
-    void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
-    void actualitzaMovimentsValids(); 
-    bool mouFitxa(const Posicio& origen, const Posicio& desti);
+    Tauler() {}
+    ~Tauler() {}
+    void mostrarFormatSting()const;
+    void inicialitza(const std::string& nomFitxer);
+    std::string toString() const;
 };
 
-
+#endif
