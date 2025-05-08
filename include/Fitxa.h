@@ -1,22 +1,22 @@
+#pragma once
 #ifndef FITXA_H
 #define FITXA_H
 
-#include <vector>
-#include "posicio.h"
-#include "moviment.h"
-using namespace std;
+#include <array>
+#include "Posicio.h"
+#include "Moviment.h"
 
-typedef enum {
+enum TipusFitxa {
     TIPUS_EMPTY = -1,
     TIPUS_NORMAL = 0,
     TIPUS_DAMA = 1
-} TipusFitxa;
+};
 
-typedef enum {
+enum ColorFitxa {
     COLOR_NEGRE = -1,
     COLOR_BLANC = 1,
     COLOR_EMPTY = 0
-} ColorFitxa;
+};
 
 class Fitxa {
 private:
@@ -26,30 +26,25 @@ private:
     Moviment moviments;
 
 public:
-    Fitxa() { tipus = TIPUS_EMPTY; color = COLOR_EMPTY; posFitxa(); }
-    Fitxa(char tipusIcolor, const array<char, 2>& pos, const Fitxa& tauler[][9]);                                   //Joannnnn
+    Fitxa() : tipus(TIPUS_EMPTY), color(COLOR_EMPTY), posFitxa() {}
+    Fitxa(char tipusIcolor, const std::array<char, 2>& pos, const Fitxa tauler[][8]);
 
     TipusFitxa getTipus() const { return tipus; }
     ColorFitxa getColor() const { return color; }
-    const Moviment getMoviments() const { return moviments; }
+    std::vector<Posicio> getMoviments() const { return moviments.getTotalDestins(); }
+    std::vector<std::vector<Posicio>> getCaptures()const { return moviments.getTotalCaptures();}
+    std::vector<std::vector<Posicio>> getCamins()const { return moviments.getTotalRecorregut(); }
+    Posicio getPos() const { return posFitxa; }
 
-    void setTipus(int t) { tipus = (TipusFitxa)t; }
-    void setColor(int c) { color = (ColorFitxa)c; }
-
-    void afegeixMoviments(const Moviment& m);                                       //Joannnn
+    void setTipus(int t) { tipus = static_cast<TipusFitxa>(t); }
+    void setColor(int c) { color = static_cast<ColorFitxa>(c); }
 
     void netejaMoviments() { moviments.CleanMoviment(); }
-
-    bool movimentsEsBuit() const { return moviments.empty(); }
     void ferDama() { tipus = TIPUS_DAMA; }
-    bool esBuit()const{return tipus==COLOR_EMPTY;}
-    bool esAmic(const Fitxa& variable)const{return color==variable.color;}
-    bool esEnemic(const Fitxa& variable)const{return color!=variable.color;}
-    void calcularPosicionsPossibles(const Fitxa m_tauler[][9], const Posicio& original){
-        moviments.actualitzaMoviments(const Fitxa m_tauler[][9], const Posicio& original);
-
-    }
+    bool esBuit() const { return tipus == TIPUS_EMPTY; }
+    bool esAmic(const Fitxa& variable) const { return color == variable.color; }
+    bool esEnemic(const Fitxa& variable) const { return color != variable.color; }
+    void calcularPosicionsPossibles(const Fitxa tauler[][8], const Posicio& original);
 };
 
 #endif
-
