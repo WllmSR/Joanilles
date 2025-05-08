@@ -18,9 +18,17 @@ private:
 public:
     Tauler() {}
     ~Tauler() {}
-    void mostrarFormatSting()const;
+    //void mostrarFormatSting()const;
     void inicialitza(const std::string& nomFitxer);
     std::string toString() const;
+    void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
+    void actualitzaMovimentsValids();
+    bool mouFitxa(const Posicio& origen, const Posicio& desti);
+
+    int trobarDestifinal(std::vector<Posicio> burrito,const Posicio& valor)const;
+    void actualitzaTaulerNormal(int valor, std::vector<Posicio> camiActual);
+    void actualitzaTaulerDames(int valor, std::vector<Posicio>camiActual);
+
 };
 
 #endif
