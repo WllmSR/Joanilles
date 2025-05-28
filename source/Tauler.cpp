@@ -149,8 +149,8 @@ bool Tauler::mouFitxa(const Posicio& origen, const Posicio& desti){
             else {
                 
             }
-            if ((fitxa.getColor() == COLOR_BLANC && desti.getFila() == 0) ||
-                (fitxa.getColor() == COLOR_NEGRE && desti.getFila() == 7)) {
+            if ((fitxa.getColor() == COLOR_BLANC && desti.getFila() == 7) ||
+                (fitxa.getColor() == COLOR_NEGRE && desti.getFila() == 0)) {
                 m_tauler[desti.getFila()][desti.getColumna()].ferDama();
             }
     actualitzaMovimentsValids();
