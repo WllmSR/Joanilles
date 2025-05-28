@@ -1,50 +1,35 @@
 #pragma once
-#ifndef FITXA_H
-#define FITXA_H
+#include "Fitxa.h"
 
+#include <string>
+#include <fstream>
 #include <array>
-#include "Posicio.h"
-#include "Moviment.h"
-
-enum TipusFitxa {
-    TIPUS_EMPTY = -1,
-    TIPUS_NORMAL = 0,
-    TIPUS_DAMA = 1
-};
-
-enum ColorFitxa {
-    COLOR_NEGRE = -1,
-    COLOR_BLANC = 1,
-    COLOR_EMPTY = 0
-};
-
-class Fitxa {
+#include <iostream>
+#define N_FILES 8
+#define N_COLUMNES 8
+using namespace std;
+class Tauler {
 private:
-    TipusFitxa tipus;
-    ColorFitxa color;
-    Posicio posFitxa;
-    Moviment moviments;
+
+    Fitxa m_tauler[N_FILES][N_COLUMNES];
 
 public:
-    Fitxa() : tipus(TIPUS_EMPTY), color(COLOR_EMPTY), posFitxa() {}
-    Fitxa(char tipusIcolor, const std::array<char, 2>& pos, const Fitxa tauler[][8]);
+    Tauler() {}
+    ~Tauler() {}
+    //void mostrarFormatSting()const;
+    void inicialitza(const std::string& nomFitxer);
+    std::string toString() const;
+    void getPosicionsPossibles(const Posicio& origen, int& nPosicions, Posicio posicionsPossibles[]);
+    void actualitzaMovimentsValids();
+    bool mouFitxa(const Posicio& origen, const Posicio& desti);
 
-    TipusFitxa getTipus() const { return tipus; }
-    ColorFitxa getColor() const { return color; }
-    std::vector<Posicio> getMoviments() const { return moviments.getTotalDestins(); }
-    std::vector<std::vector<Posicio>> getCaptures()const { return moviments.getTotalCaptures();}
-    std::vector<std::vector<Posicio>> getCamins()const { return moviments.getTotalRecorregut(); }
-    Posicio getPos() const { return posFitxa; }
+    int trobarDestifinal(std::vector<Posicio> burrito,const Posicio& valor)const;
+    void actualitzaTaulerNormal(int valor, std::vector<Posicio> camiActual);
+   // void actualitzaTaulerDames(int valor, std::vector<Posicio>camiActual);
+    void printTaulerComplert();
+    
+//    void printFacil();
+    };
 
-    void setTipus(int t) { tipus = static_cast<TipusFitxa>(t); }
-    void setColor(int c) { color = static_cast<ColorFitxa>(c); }
 
-    void netejaMoviments() { moviments.CleanMoviment(); }
-    void ferDama() { tipus = TIPUS_DAMA; }
-    bool esBuit() const { return tipus == TIPUS_EMPTY; }
-    bool esAmic(const Fitxa& variable) const { return color == variable.color; }
-    bool esEnemic(const Fitxa& variable) const { return color != variable.color; }
-    void calcularPosicionsPossibles(const Fitxa tauler[][8], const Posicio& original);
-};
 
-#endif
