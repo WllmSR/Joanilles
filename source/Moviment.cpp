@@ -1,9 +1,11 @@
 #include "Moviment.h"
+#include <iostream>
+using namespace std;
 void Moviment::CleanMoviment() {
-    for (auto& fitxa : recorregut) {
+    for (auto& fitxa : recorreguts) {
         fitxa.clear();
     }
-    recorregut.clear();
+    recorreguts.clear();
 
     for (auto& fitxa : pecesCapturades) {
         fitxa.clear();
@@ -13,21 +15,29 @@ void Moviment::CleanMoviment() {
     captures.clear();
 }
 Moviment::~Moviment() { CleanMoviment(); }
-const std::vector<Posicio>& Moviment::getRecorregut(int posicioIndex) const { return recorregut[posicioIndex]; }
-const std::vector<Posicio>& Moviment::getCaptures(int posicioIndex) const { return pecesCapturades[posicioIndex]; }
-void Moviment::actualitzaMoviments(std::vector<std::vector<std::pair<int, int>>> taulerTraduit, const Posicio& original) {
-    std::pair<int, int> titits = taulerTraduit[original.getFila()][original.getColumna()];
-
-    if (titits.first ==0){
-        DFSDames(taulerTraduit, recorregut, pecesCapturades, original);
+bool camiExisteix(const std::vector<std::vector<Posicio>>& poma, const std::vector<Posicio>& cami) {
+    for (const auto& existent : poma) {
+        if (existent == cami) {
+            return true;
+        }
     }
-    else if (titits.second ==1) {
-        DFSNormal(taulerTraduit, recorregut, pecesCapturades, original);
+    return false;
+}
+
+const std::vector<Posicio>& Moviment::getRecorregut(int posicioIndex) const { return recorreguts[posicioIndex]; }
+const std::vector<Posicio>& Moviment::getCaptures(int posicioIndex) const { return pecesCapturades[posicioIndex]; }
+void Moviment::actualitzaMoviments(std::vector<std::vector<std::pair<int, int>>> taulerTraduit, const Posicio& original){
+    std::pair<int, int> titits = taulerTraduit[original.getFila()][original.getColumna()];
+    if (titits.first == 1) {
+        DFSDames(taulerTraduit, recorreguts, pecesCapturades, original);
+    }
+    else if (titits.first == 0) {
+        DFSNormal(taulerTraduit, recorreguts, pecesCapturades, original);
     }
     else {
         return;
     }
-    for (const auto fitxa : recorregut) {
+    for (const auto fitxa : recorreguts) {
         for (const auto element : fitxa) {
             if (find(destins.begin(), destins.end(), element) == destins.end()) {
                 destins.push_back(element);
@@ -42,489 +52,337 @@ void Moviment::actualitzaMoviments(std::vector<std::vector<std::pair<int, int>>>
         }
 
     }
-}
-void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, std::vector<std::pair<Posicio, int>>& parametrePosicions, std::vector<std::pair<Posicio, bool>>& parametreCaptures, std::vector<std::vector<std::pair<int, int>>>taulerTraduit) {
-    int filaNova = -1;
-    int filaNova2 = -1;
-    int colDret1 = -1;
-    int colDret2 = -1;
-    int colEsq1 = -1;
-    int colEsq2 = -1;
-    bool capturatDret = false;
-    bool capturatEsquerra = false;
-    int valoRetornDreta = 0;
-    int valoRetornEsquerra = 0;
-    int staticTemporal = taulerTraduit[origen.getFila()][origen.getColumna()].second;
- 
-    if (esValid(origen.getFila() + staticTemporal, origen.getColumna() + 1)) {
-        if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() + 1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-            colDret1 = origen.getColumna() + 1;
-            filaNova = origen.getFila() + staticTemporal;
-        }
-        else
-            valoRetornDreta = 1;
-    }
-    else {
-        valoRetornDreta = 1;
-    }
-    if (esValid(origen.getFila() + staticTemporal, origen.getColumna() - 1)) {
-        if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() - 1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-            colEsq1 = origen.getColumna() - 1;
-            filaNova = origen.getFila() + staticTemporal;
-        }
-        else
-            valoRetornEsquerra = 1;
-    }
-    else {
-        valoRetornEsquerra = 1;
-    }
-    if (filaNova != -1) {
-        if (colDret1 != -1) {
-            if (taulerTraduit[filaNova][colDret1].first == 0) {
-                colDret2 = colDret1;
-                filaNova2 = filaNova;
-                valoRetornDreta = 0;
-            }
-            else if (taulerTraduit[filaNova][colDret1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-                if (esValid(filaNova + staticTemporal, colDret1 + 1) && taulerTraduit[filaNova + staticTemporal][colDret1 + 1].first == 0) {
-                    filaNova2 = filaNova + staticTemporal;
-                    colDret2 = colDret1 + 1;
-                    capturatDret = true;
-                    valoRetornDreta = 2;
-                }
-                else {
-                    valoRetornDreta = 1;
-                }
-            }
-        }
-        if (colEsq1 != -1) {
-            if (taulerTraduit[filaNova][colEsq1].first == 0) {
-                colEsq2 = colEsq1;
-                filaNova2 = filaNova;
-                valoRetornEsquerra = 0;
-            }
-            else if (taulerTraduit[filaNova][colEsq1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-                if (esValid(filaNova + staticTemporal, colEsq1 - 1) && taulerTraduit[filaNova + staticTemporal][colEsq1 - 1].first == 0) {
-                    filaNova2 = filaNova + staticTemporal;
-                    colEsq2 = colEsq1 - 1;
-                    capturatEsquerra = true;
-                    valoRetornEsquerra = 2;
-                }
-                else {
-                    valoRetornDreta = 1;
-                }
-            }
-        }
-    }
-    Posicio fitxaDreta(filaNova2, colDret2);        Posicio fitxaDretaCap(filaNova, colDret1);
-    Posicio fitxaEsquerra(filaNova2, colEsq2);      Posicio fitxaEsquerraCap(filaNova, colEsq1);
-
-    parametrePosicions.push_back(std::make_pair(fitxaDreta, valoRetornDreta));
-    parametreCaptures.push_back(std::make_pair(fitxaDretaCap, capturatDret));
-    parametrePosicions.push_back(std::make_pair(fitxaEsquerra, valoRetornEsquerra));
-    parametreCaptures.push_back(std::make_pair(fitxaEsquerraCap, capturatEsquerra));
-}
-void Moviment::mirarCapturesDames(int AmuntBaix, int& continuarDreta, int& continuarEsquerra, const Posicio& origen, std::vector<Posicio>& parametrePosicionsDreta, std::vector<Posicio>& parametrePosicionsEsquerra, std::pair<Posicio, bool>& parametreCapturesDreta, std::pair<Posicio, bool>& parametreCapturadesEsquerra, std::vector<std::vector<std::pair<int, int>>>taulerTraduit)
-{
-
+}/**/
+void Moviment::mirarCapturesDames(bool inici, int AmuntBaix, int& continuarDreta, int& continuarEsquerra, const Posicio& origen, std::vector<Posicio>& parametrePosicionsDreta, std::vector<Posicio>& parametrePosicionsEsquerra, std::pair<Posicio, bool>& parametreCapturesDreta, std::pair<Posicio, bool>& parametreCapturadesEsquerra, std::vector<std::vector<std::pair<int, int>>> taulerTraduit, const std::vector<Posicio>& capturesActuals) {
     continuarDreta = -1;
     continuarEsquerra = -1;
 
-    int staticTemporal = taulerTraduit[origen.getFila()][origen.getColumna()].second * AmuntBaix;
-
-    int i = origen.getFila() + staticTemporal;
+    int staticTemporal = AmuntBaix;
+int i = origen.getFila() + staticTemporal;
     int j = origen.getColumna() + 1;
-    int valorDret1 = 0;
-    int valorEsquerra2 = 0;
     bool trobat = false;
+
     while (!trobat && esValid(i, j)) {
-        if (taulerTraduit[i][j].first == 0) {
+        if (taulerTraduit[i][j].first == -1) {
             parametrePosicionsDreta.push_back(Posicio(i, j));
-            i = i + staticTemporal;
-            j = j + 1;
+            i += staticTemporal;
+            j += 1;
         }
-        else if (taulerTraduit[i][j].second != taulerTraduit[origen.getFila()][origen.getColumna()].second || taulerTraduit[i][j].second == taulerTraduit[origen.getFila()][origen.getColumna()].second) {
+        else {
             trobat = true;
         }
     }
+
     if (trobat) {
-        if (taulerTraduit[i][j].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-            if (taulerTraduit[i + staticTemporal][j + 1].first == 0) {//si es buit
+        bool jaCapturada = std::find_if(capturesActuals.begin(), capturesActuals.end(), [&](const Posicio& p) {
+            return p.getFila() == i && p.getColumna() == j;
+            }) != capturesActuals.end();
+            int colorActual = taulerTraduit[origen.getFila()][origen.getColumna()].second;
+            int colorPeca = taulerTraduit[i][j].second;
+            bool esEnemic = (colorPeca != colorActual && colorPeca != 0);
+            if (!jaCapturada && esEnemic && esValid(i + staticTemporal, j + 1) && taulerTraduit[i + staticTemporal][j + 1].first == -1) {
                 parametrePosicionsDreta.push_back(Posicio(i + staticTemporal, j + 1));
-                parametreCapturesDreta = std::make_pair(Posicio(i, j), true);
+                parametreCapturesDreta = { Posicio(i, j), true };
                 continuarDreta = 0;
             }
             else {
-                i = i - staticTemporal;
-                j = j - 1;
-                if (i == origen.getFila() && j == origen.getColumna()) {
-                    continuarDreta = 1;
+                if (!inici) {
+                    parametrePosicionsDreta.clear();
+                    parametreCapturesDreta.second = false;
                 }
-                else {
-                    continuarDreta = 2;
+                else if (inici) {
                 }
+
             }
-        }
-        else {
-            continuarDreta = 3;
-        }
     }
-    else {
-        continuarDreta = 4;
+    else if (!inici) {
+        parametrePosicionsDreta.clear();
+        parametreCapturesDreta.second = false;
+
     }
+    else if (inici) {
+    }
+    
     i = origen.getFila() + staticTemporal;
     j = origen.getColumna() - 1;
     trobat = false;
+
     while (!trobat && esValid(i, j)) {
-        if (taulerTraduit[i][j].first == 0) {
+        if (taulerTraduit[i][j].first == -1) {
             parametrePosicionsEsquerra.push_back(Posicio(i, j));
-            i = i + staticTemporal;
-            j = j - 1;
+            i += staticTemporal;
+            j -= 1;
         }
-        else if (taulerTraduit[i][j].second != taulerTraduit[origen.getFila()][origen.getColumna()].second || taulerTraduit[i][j].second == taulerTraduit[origen.getFila()][origen.getColumna()].second) {
+        else {
             trobat = true;
         }
     }
     if (trobat) {
-        if (taulerTraduit[i][j].second != taulerTraduit[origen.getFila()][origen.getColumna()].second) {
-            if (taulerTraduit[i + staticTemporal][j - 1].first == 0) {
+        bool jaCapturada = std::find_if(capturesActuals.begin(), capturesActuals.end(), [&](const Posicio& p) {
+            return p.getFila() == i && p.getColumna() == j;
+            }) != capturesActuals.end();
+            int colorActual = taulerTraduit[origen.getFila()][origen.getColumna()].second;
+            int colorPeca = taulerTraduit[i][j].second;
+            bool esEnemic = (colorPeca != colorActual && colorPeca != 0);
+            if (!jaCapturada && esEnemic && esValid(i + staticTemporal, j - 1) && taulerTraduit[i + staticTemporal][j - 1].first == -1) {
                 parametrePosicionsEsquerra.push_back(Posicio(i + staticTemporal, j - 1));
-                parametreCapturadesEsquerra = std::make_pair(Posicio(i, j), true);
+                parametreCapturadesEsquerra = { Posicio(i, j), true };
                 continuarEsquerra = 0;
             }
             else {
-                i = i - staticTemporal;
-                j = j + 1;
-                if (i == origen.getFila() && j == origen.getColumna()) {
-                    continuarEsquerra = 1;
+                if (!inici) {
+                    parametrePosicionsEsquerra.clear();
+                    parametreCapturadesEsquerra.second = false;
                 }
                 else {
-                    continuarEsquerra = 2;
                 }
+
             }
-        }
-        else {
-            continuarEsquerra = 3;
-        }
+    }
+    else if (!inici) {
+        parametrePosicionsEsquerra.clear();
+        parametreCapturadesEsquerra.second = false;
 
     }
-    else {
-        continuarEsquerra = 4;
+    else if (inici) {
     }
 }
-void Moviment::DFSDames(std::vector<std::vector<std::pair<int, int>>>taulerTraduit, std::vector<std::vector<Posicio>>& recorregut, std::vector<std::vector<Posicio>>& pecesCaptured, const Posicio& original) {
-    std::vector<std::vector<std::pair<Posicio, bool>>> m_taulerVisitats;
-    m_taulerVisitats.resize(9, std::vector<std::pair<Posicio, bool>>(9));
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            m_taulerVisitats[i][j].first = Posicio(i,j);
-            m_taulerVisitats[i][j].second = false;
-        }
-    }
-    std::stack <std::tuple<Posicio, std::vector<Posicio>, std::vector<Posicio>, bool>> m_stackPerVisitar;
-    m_stackPerVisitar.push(std::make_tuple(original, std::vector<Posicio>{original}, std::vector<Posicio>{}, false));
-    //std::vector<std::pair<Posicio, bool>> pecesCaptured;
-    bool inici = true;
-    while (!m_stackPerVisitar.empty()) {
-        auto element = m_stackPerVisitar.top();
-        auto temporal = std::get<0>(element);
-        auto m_vector = std::get<1>(element);
-        auto m_cap = std::get<2>(element);
-        bool hasCapturat = std::get<3>(element);
-        m_stackPerVisitar.pop();
-        if (!m_taulerVisitats[temporal.getFila()][temporal.getColumna()].second) {
-            m_taulerVisitats[temporal.getFila()][temporal.getColumna()].second = true;
-            std::vector<Posicio> posicionsDreta;
-            std::vector<Posicio> posicionsEsquerra;
-            int continuarDreta = -1;
-            int continuarEsquerra = -1;
-            std::pair<Posicio, bool> capturadesDreta;
-            std::pair<Posicio, bool> capturadesEsquerra;
-            int AmuntBaix = 1;
-            mirarCapturesDames(AmuntBaix, continuarDreta, continuarEsquerra, temporal, posicionsDreta, posicionsEsquerra, capturadesDreta, capturadesEsquerra, taulerTraduit);
-            if (hasCapturat) {
-                if (continuarDreta == 0) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    for (const auto& p : posicionsDreta) nouCami.push_back(p);
-                    std::vector<Posicio> novesCaptures = m_cap;
-                    if (capturadesDreta.second) { novesCaptures.push_back(capturadesDreta.first); };
-                    m_stackPerVisitar.push(make_tuple(posicionsDreta.back(), nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCaptured.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (continuarDreta == 0) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (const auto& p : posicionsDreta) nouCami.push_back(p);
-                        std::vector<Posicio> novesCaptures = m_cap;
-                        if (capturadesDreta.second) { novesCaptures.push_back(capturadesDreta.first); }
+void Moviment::DFSDames(std::vector<std::vector<std::pair<int, int>>> taulerTraduit, std::vector<std::vector<Posicio>>& recorregut, std::vector<std::vector<Posicio>>& pecesCaptured, const Posicio& original) {
+    std::vector<std::vector<std::pair<Posicio, bool>>> m_taulerVisitats(8, std::vector<std::pair<Posicio, bool>>(8));
+    for (int i = 0; i < 8; ++i)
+        for (int j = 0; j < 8; ++j)
+            m_taulerVisitats[i][j] = { Posicio(i, j), false };
 
-                        m_stackPerVisitar.push(make_tuple(posicionsDreta.back(), nouCami, novesCaptures, true));
-                    }
-                    else {
-                        if (!posicionsDreta.empty()) {
-                            std::vector<Posicio> nouCami = m_vector;
-                            for (auto& p : posicionsDreta) nouCami.push_back(p);
-                            recorregut.push_back(nouCami);
-                            pecesCaptured.push_back(m_cap);
-                        }
-                    }
-                }
-                else {
-                    if (!posicionsDreta.empty()) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (auto& p : posicionsDreta) nouCami.push_back(p);
-                        recorregut.push_back(nouCami);
-                        pecesCaptured.push_back(m_cap);
-                    }
-                }
-            }
-            if (hasCapturat) {
-                if (continuarEsquerra == 0) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    for (const auto& p : posicionsEsquerra) nouCami.push_back(p);
-                    std::vector<Posicio> novesCaptures = m_cap;
-                    if (capturadesEsquerra.second) novesCaptures.push_back(capturadesEsquerra.first);
-
-                    m_stackPerVisitar.push(make_tuple(posicionsEsquerra.back(), nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCaptured.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (continuarEsquerra == 0) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (const auto& p : posicionsEsquerra) nouCami.push_back(p);
-                        std::vector<Posicio> novesCaptures = m_cap;
-                        if (capturadesEsquerra.second) novesCaptures.push_back(capturadesEsquerra.first);
-
-                        m_stackPerVisitar.push(make_tuple(posicionsEsquerra.back(), nouCami, novesCaptures, true));
-                    }
-                    else {
-                        if (!posicionsEsquerra.empty()) {
-                            std::vector<Posicio> nouCami = m_vector;
-                            for (auto& p : posicionsEsquerra) nouCami.push_back(p);
-                            recorregut.push_back(nouCami);
-                            pecesCaptured.push_back(m_cap);
-                        }
-                    }
-                }
-                else {
-                    if (!posicionsEsquerra.empty()) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (auto& p : posicionsEsquerra) nouCami.push_back(p);
-                        recorregut.push_back(nouCami);
-                        pecesCaptured.push_back(m_cap);
-                    }
-                }
-            }
-
-
-            continuarDreta = -1;
-            continuarEsquerra = -1;
-            posicionsDreta.clear();
-            posicionsEsquerra.clear();
-            AmuntBaix = -1;
-            mirarCapturesDames(AmuntBaix, continuarDreta, continuarEsquerra, temporal, posicionsDreta, posicionsEsquerra, capturadesDreta, capturadesEsquerra, taulerTraduit);
-            if (hasCapturat) {
-                if (continuarDreta == 0) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    for (const auto& p : posicionsDreta) nouCami.push_back(p);
-                    std::vector<Posicio> novesCaptures = m_cap;
-                    if (capturadesDreta.second) novesCaptures.push_back(capturadesDreta.first);
-
-                    m_stackPerVisitar.push(make_tuple(posicionsDreta.back(), nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCaptured.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (continuarDreta == 0) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (const auto& p : posicionsDreta) nouCami.push_back(p);
-                        std::vector<Posicio> novesCaptures = m_cap;
-                        if (capturadesDreta.second) novesCaptures.push_back(capturadesDreta.first);
-
-                        m_stackPerVisitar.push(make_tuple(posicionsDreta.back(), nouCami, novesCaptures, true));
-                    }
-                    else {
-                        if (!posicionsDreta.empty()) {
-                           std::vector<Posicio> nouCami = m_vector;
-                            for (auto& p : posicionsDreta) nouCami.push_back(p);
-                            recorregut.push_back(nouCami);
-                            pecesCaptured.push_back(m_cap);
-                        }
-                    }
-                }
-                else {
-                    if (!posicionsDreta.empty()) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (auto& p : posicionsDreta) nouCami.push_back(p);
-                        recorregut.push_back(nouCami);
-                        pecesCaptured.push_back(m_cap);
-                    }
-                }
-            }
-
-            if (hasCapturat) {
-                if (continuarEsquerra == 0) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    for (const auto& p : posicionsEsquerra) nouCami.push_back(p);
-                    std::vector<Posicio> novesCaptures = m_cap;
-                    if (capturadesEsquerra.second) novesCaptures.push_back(capturadesEsquerra.first);
-
-                    m_stackPerVisitar.push(make_tuple(posicionsEsquerra.back(), nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCaptured.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (continuarEsquerra == 0) {
-                       std:: vector<Posicio> nouCami = m_vector;
-                        for (const auto& p : posicionsEsquerra) nouCami.push_back(p);
-                        std::vector<Posicio> novesCaptures = m_cap;
-                        if (capturadesEsquerra.second) novesCaptures.push_back(capturadesEsquerra.first);
-
-                        m_stackPerVisitar.push(make_tuple(posicionsEsquerra.back(), nouCami, novesCaptures, true));
-                    }
-                    else {
-                        if (!posicionsEsquerra.empty()) {
-                            std::vector<Posicio> nouCami = m_vector;
-                            for (auto& p : posicionsEsquerra) nouCami.push_back(p);
-                            recorregut.push_back(nouCami);
-                            pecesCaptured.push_back(m_cap);
-                        }
-                    }
-                }
-                else {
-                    if (!posicionsEsquerra.empty()) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        for (auto& p : posicionsEsquerra) nouCami.push_back(p);
-                        recorregut.push_back(nouCami);
-                        pecesCaptured.push_back(m_cap);
-                    }
-                }
-            }
-            inici = false;
-        }
-    }
-}
-void Moviment::DFSNormal(std::vector<std::vector<std::pair<int, int>>>taulerTraduit, std::vector<std::vector<Posicio>>& recorregut, std::vector<std::vector<Posicio>>& pecesCaptured, const Posicio& original) {
-    std::vector<std::vector<std::pair<Posicio, bool>>> m_taulerVisitats;
-    m_taulerVisitats.resize(8, std::vector<std::pair<Posicio, bool>>(8));
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            m_taulerVisitats[i][j].first = Posicio(i, j);
-            m_taulerVisitats[i][j].second = false;
-        }
-    }
-
-    bool inici = true;
     std::stack<std::tuple<Posicio, std::vector<Posicio>, std::vector<Posicio>, bool>> m_stackPerVisitar;
+    m_stackPerVisitar.push({ original, {original}, {}, false });
+    bool inici = true;
     while (!m_stackPerVisitar.empty()) {
-        std::tuple<Posicio, std::vector<Posicio>, std::vector<Posicio>, bool> element = m_stackPerVisitar.top();
-    Posicio temporal = std::get<0>(element);
-        std::vector<Posicio> m_vector = std::get<1>(element);
-        std::vector<Posicio> m_cap = std::get<2>(element);
-        bool hasCapturat = std::get<3>(element);
+        std::tuple < Posicio, std::vector<Posicio>, std::vector<Posicio>, bool >Deon = m_stackPerVisitar.top();
+        Posicio posActual = std::get<0>(Deon);
+        std::vector<Posicio> camiActual = std::get<1>(Deon);
+        std::vector<Posicio> capturesActuals = std::get<2>(Deon);
+        bool haCapturat = std::get<3>(Deon);
         m_stackPerVisitar.pop();
-        if (!m_taulerVisitats[temporal.getFila()][temporal.getColumna()].second) {
-            m_taulerVisitats[temporal.getFila()][temporal.getColumna()].second = true;
-            std::vector<std::pair<Posicio, int>> posicions;
-            std::vector<std::pair<Posicio, bool>> capturades;
-            mirarCapturesDretaEsquerra(temporal, posicions, capturades, taulerTraduit);
-            int valor1Dret = posicions[0].second;;
-            int valor2Esquerra = posicions[1].second;
-            if (hasCapturat) {
-                if (valor1Dret == 2 && !m_taulerVisitats[posicions[0].first.getFila()][posicions[0].first.getColumna()].second) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    nouCami.push_back(posicions[0].first);
-                    std::vector<Posicio>novesCaptures = m_cap;
-                    if (capturades[0].second) {
-                        novesCaptures.push_back(capturades[0].first);
-                    }
-                    m_stackPerVisitar.push(std::make_tuple(posicions[0].first, nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCapturades.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (valor1Dret == 2 && !m_taulerVisitats[posicions[0].first.getFila()][posicions[0].first.getColumna()].second) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        nouCami.push_back(posicions[0].first);
-                        std::vector<Posicio>novesCaptures = m_cap;
-                        if (capturades[0].second) {
-                            novesCaptures.push_back(capturades[0].first);
-                        }
-                        m_stackPerVisitar.push(std::make_tuple(posicions[0].first, nouCami, novesCaptures, true));
-                    }
-                    else if (valor1Dret == 0) {
-                        std::vector<Posicio>nouCami = m_vector;
-                        nouCami.push_back(posicions[0].first);
-                        recorregut.push_back(m_vector);
-                        pecesCaptured.push_back(m_cap);
+        if (m_taulerVisitats[posActual.getFila()][posActual.getColumna()].second) continue;
+        m_taulerVisitats[posActual.getFila()][posActual.getColumna()].second = true;
+
+        for (int direccio : {-1, 1}) {
+            std::vector<Posicio> posicionsDreta, posicionsEsquerra;
+            std::pair<Posicio, bool> capturaDreta, capturaEsquerra;
+            int continuarDreta = -1, continuarEsquerra = -1;
+
+            mirarCapturesDames(inici, direccio, continuarDreta, continuarEsquerra, posActual, posicionsDreta, posicionsEsquerra, capturaDreta, capturaEsquerra, taulerTraduit, capturesActuals);
+
+            auto processarMoviment = [&](const std::vector<Posicio>& posicions,
+                int continuar,
+                const std::pair<Posicio, bool>& captura) {
+                    if (posicions.empty()) return;
+
+                    std::vector<Posicio> nouCami = camiActual;
+                    nouCami.insert(nouCami.end(), posicions.begin(), posicions.end());
+
+                    std::vector<Posicio> novesCaptures = capturesActuals;
+                    if (captura.second) {
+                        novesCaptures.push_back(captura.first);
                     }
                     else {
-                        recorregut.push_back(m_vector);
-                        pecesCaptured.push_back(m_cap);
                     }
-                }
-            }
-            if (hasCapturat) {
-                if (valor2Esquerra == 2 && !m_taulerVisitats[posicions[1].first.getFila()][posicions[1].first.getColumna()].second) {
-                    std::vector<Posicio> nouCami = m_vector;
-                    nouCami.push_back(posicions[1].first);
-                    std::vector<Posicio>novesCaptures = m_cap;
-                    if (capturades[1].second) {
-                        novesCaptures.push_back(capturades[1].first);
-                    }
-                    m_stackPerVisitar.push(std::make_tuple(posicions[1].first, nouCami, novesCaptures, true));
-                }
-                else {
-                    recorregut.push_back(m_vector);
-                    pecesCapturades.push_back(m_cap);
-                }
-            }
-            else {
-                if (inici) {
-                    if (valor2Esquerra == 2 && !m_taulerVisitats[posicions[1].first.getFila()][posicions[1].first.getColumna()].second) {
-                        std::vector<Posicio> nouCami = m_vector;
-                        nouCami.push_back(posicions[1].first);
-                        std::vector<Posicio>novesCaptures = m_cap;
-                        if (capturades[1].second) {
-                            novesCaptures.push_back(capturades[1].first);
+
+                    if (continuar == 0) {
+
+                        if (captura.second) {
+                            if (std::find(recorregut.begin(), recorregut.end(), nouCami) == recorregut.end()) {
+                                recorregut.push_back(nouCami);
+                                pecesCaptured.push_back(novesCaptures);
+                            }
                         }
-                        m_stackPerVisitar.push(std::make_tuple(posicions[1].first, nouCami, novesCaptures, true));
-                    }
-                    else if (valor2Esquerra == 0) {
-                        std::vector<Posicio>nouCami = m_vector;
-                        nouCami.push_back(posicions[1].first);
-                        recorregut.push_back(m_vector);
-                        pecesCaptured.push_back(m_cap);
+
+                        m_stackPerVisitar.push({ posicions.back(), nouCami, novesCaptures, true });
                     }
                     else {
-                        recorregut.push_back(m_vector);
-                        pecesCaptured.push_back(m_cap);
+                        if (std::find(recorregut.begin(), recorregut.end(), nouCami) == recorregut.end()) {
+                            recorregut.push_back(nouCami);
+                            pecesCaptured.push_back(novesCaptures);
+                        }
+                        else {
+                        }
                     }
-                }
+                };
+
+            processarMoviment(posicionsDreta, continuarDreta, capturaDreta);
+            processarMoviment(posicionsEsquerra, continuarEsquerra, capturaEsquerra);
+
+        }
+
+        inici = false;
+    }
+   }
+
+void Moviment::mirarCapturesDretaEsquerra(const Posicio& origen, std::vector<std::pair<Posicio, int>>& parametrePosicions, std::vector<std::pair<Posicio, bool>>& parametreCaptures, std::vector<std::vector<std::pair<int, int>>> taulerTraduit) {
+    int staticTemporal = taulerTraduit[origen.getFila()][origen.getColumna()].second;
+    // Variables separades per a cada direcció
+    int filaNovaDreta = -1, filaNova2Dreta = -1, colDret1 = -1, colDret2 = -1;
+    int filaNovaEsq = -1, filaNova2Esq = -1, colEsq1 = -1, colEsq2 = -1;
+    bool capturatDret = false, capturatEsquerra = false;
+    int valoRetornDreta = 1, valoRetornEsquerra = 1; // per defecte moviment no vàlid
+
+    // --- Direcció dreta ---
+    if (esValid(origen.getFila() + staticTemporal, origen.getColumna() + 1)){
+        if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() + 1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second &&
+            taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() + 1].first != -1){
+            // peça enemiga
+            colDret1 = origen.getColumna() + 1;
+            filaNovaDreta = origen.getFila() + staticTemporal;
+
+            if (esValid(filaNovaDreta + staticTemporal, colDret1 + 1) && taulerTraduit[filaNovaDreta + staticTemporal][colDret1 + 1].first == -1) {
+                filaNova2Dreta = filaNovaDreta + staticTemporal;
+                colDret2 = colDret1 + 1;
+                capturatDret = true;
+                valoRetornDreta = 2;
             }
-            inici = false;
+        }
+        else if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() + 1].first == -1){
+            // cas moviment normal
+            colDret2 = origen.getColumna() + 1;
+            filaNova2Dreta = origen.getFila() + staticTemporal;
+            valoRetornDreta = 0;
         }
     }
+
+    // --- Direcció esquerra ---
+    if (esValid(origen.getFila() + staticTemporal, origen.getColumna() - 1)) {
+        if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() - 1].second != taulerTraduit[origen.getFila()][origen.getColumna()].second &&
+            taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() - 1].first != -1){
+            // peça enemiga
+            colEsq1 = origen.getColumna() - 1;
+            filaNovaEsq = origen.getFila() + staticTemporal;
+
+            if (esValid(filaNovaEsq + staticTemporal, colEsq1 - 1) && taulerTraduit[filaNovaEsq + staticTemporal][colEsq1 - 1].first == -1) {
+                filaNova2Esq = filaNovaEsq + staticTemporal;
+                colEsq2 = colEsq1 - 1;
+                capturatEsquerra = true;
+                valoRetornEsquerra = 2;
+            }
+        }
+        else if (taulerTraduit[origen.getFila() + staticTemporal][origen.getColumna() - 1].first == -1) {
+            colEsq2 = origen.getColumna() - 1;
+            filaNova2Esq = origen.getFila() + staticTemporal;
+            valoRetornEsquerra = 0;
+        }
+    }
+
+    // Crear objectes Posicio
+    Posicio fitxaDreta(filaNova2Dreta, colDret2);
+    Posicio fitxaDretaCap(filaNovaDreta, colDret1);
+
+    Posicio fitxaEsquerra(filaNova2Esq, colEsq2);
+    Posicio fitxaEsquerraCap(filaNovaEsq, colEsq1);
+
+    // Afegir resultats
+    parametrePosicions.push_back({ fitxaDreta, valoRetornDreta });
+    parametreCaptures.push_back({ fitxaDretaCap, capturatDret });
+
+    parametrePosicions.push_back({ fitxaEsquerra, valoRetornEsquerra });
+    parametreCaptures.push_back({ fitxaEsquerraCap, capturatEsquerra });
+  
 }
+
+
+void Moviment::DFSNormal(
+    std::vector<std::vector<std::pair<int, int>>> taulerTraduit,
+    std::vector<std::vector<Posicio>>& problemes,
+    std::vector<std::vector<Posicio>>& pecesCaptured,
+    const Posicio& original
+) {
+    std::vector<std::vector<std::pair<Posicio, bool>>> m_taulerVisitats(8, std::vector<std::pair<Posicio, bool>>(8));
+    for (int i = 0; i < 8; ++i)
+        for (int j = 0; j < 8; ++j)
+            m_taulerVisitats[i][j] = { Posicio(i, j), false };
+
+    std::stack<std::tuple<Posicio, std::vector<Posicio>, std::vector<Posicio>, bool>> m_stackPerVisitar;
+    m_stackPerVisitar.push({ original, {original}, {}, false });
+    bool inici = true;
+    while (!m_stackPerVisitar.empty()) {
+
+        std::tuple < Posicio, std::vector<Posicio>, std::vector<Posicio>, bool >Deon = m_stackPerVisitar.top();
+        Posicio posActual = std::get<0>(Deon);
+        std::vector<Posicio> camiActual = std::get<1>(Deon);
+        std::vector<Posicio> capturesActuals = std::get<2>(Deon);
+        bool haCapturat = std::get<3>(Deon);
+        m_stackPerVisitar.pop();
+        if (m_taulerVisitats[posActual.getFila()][posActual.getColumna()].second) continue;
+        m_taulerVisitats[posActual.getFila()][posActual.getColumna()].second = true;
+
+        std::vector<std::pair<Posicio, int>> posicions;
+        std::vector<std::pair<Posicio, bool>> capturades;
+
+        mirarCapturesDretaEsquerra(posActual, posicions, capturades, taulerTraduit);
+        // Gestionar cada direcció (dreta i esquerra)
+        int contador = 0;
+        for (int dir = 0; dir < 2; dir++) {
+            contador++;
+            const Posicio& dest = posicions[dir].first;
+            int tipusMoviment = posicions[dir].second;
+            const auto& captura = capturades[dir];
+            if (haCapturat){
+                if (tipusMoviment == 2 && !m_taulerVisitats[dest.getFila()][dest.getColumna()].second) {
+                    //vol dir qu podem continuar:
+                    auto nouCami = camiActual;
+                    auto novesCaptures = capturesActuals;
+                    nouCami.push_back(dest);
+                    if (captura.second) novesCaptures.push_back(captura.first);
+                    m_stackPerVisitar.push({ dest, nouCami, novesCaptures, true });
+                   
+                }
+                else {
+                    if (!camiExisteix(problemes, camiActual)) {
+                        problemes.push_back(camiActual);
+                        pecesCaptured.push_back(capturesActuals);
+                    }
+                }
+            }
+            else {
+                //no hem capturat abans
+                if (inici) {
+                    if (tipusMoviment == 2 && !m_taulerVisitats[dest.getFila()][dest.getColumna()].second){
+                        auto nouCami = camiActual;
+                        auto novesCaptures = capturesActuals;
+                        nouCami.push_back(dest);
+                        if (captura.second) novesCaptures.push_back(captura.first);
+                        m_stackPerVisitar.push({ dest, nouCami, novesCaptures, true });
+                    }
+                    else if (tipusMoviment == 0){
+                        auto nouCami = camiActual;
+                        nouCami.push_back(dest);
+                        if (!camiExisteix(problemes, nouCami)) {
+                            problemes.push_back(nouCami);
+                            pecesCaptured.push_back(capturesActuals);
+                        }
+                        else {
+                        }
+                    }
+                    else{
+                        if (!camiExisteix(problemes, camiActual)) {
+                            problemes.push_back(camiActual);
+                            pecesCaptured.push_back(capturesActuals);
+
+                        }
+                    }
+
+                }
+                else {
+                    if (!camiExisteix(problemes, camiActual)) {
+                        problemes.push_back(camiActual);
+                        pecesCaptured.push_back(capturesActuals);
+                    }
+                }
+
+            }
+        }
+
+
+        inici = false;
+    }
+}
+
+
