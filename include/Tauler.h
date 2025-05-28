@@ -1,15 +1,13 @@
 #pragma once
-#ifndef TAULER_H
-#define TAULER_H
 #include "Fitxa.h"
 
 #include <string>
 #include <fstream>
 #include <array>
-
+#include <iostream>
 #define N_FILES 8
 #define N_COLUMNES 8
-
+using namespace std;
 class Tauler {
 private:
 
@@ -27,8 +25,11 @@ public:
 
     int trobarDestifinal(std::vector<Posicio> burrito,const Posicio& valor)const;
     void actualitzaTaulerNormal(int valor, std::vector<Posicio> camiActual);
-    void actualitzaTaulerDames(int valor, std::vector<Posicio>camiActual);
+   // void actualitzaTaulerDames(int valor, std::vector<Posicio>camiActual);
+    void printTaulerComplert();
+    
+//    void printFacil();
+    };
 
-};
 
-#endif
+
